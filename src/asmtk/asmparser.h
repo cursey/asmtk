@@ -37,9 +37,9 @@ public:
   // --------------------------------------------------------------------------
 
   inline const char* input() const noexcept { return reinterpret_cast<const char*>(_tokenizer._input); }
-  inline bool setInput(const char* input, size_t size = asmjit::Globals::kNotFound) noexcept {
-    if (size == asmjit::Globals::kNotFound)
-      size = ::strlen(input);
+  inline bool setInput(const char* input, size_t size = SIZE_MAX) noexcept {
+    if (size == SIZE_MAX)
+      size = strlen(input);
 
     _tokenizer.setInput(reinterpret_cast<const uint8_t*>(input), size);
     _currentCommandOffset = 0;
@@ -78,7 +78,7 @@ public:
   //! the end is reached. It returns `kErrorOk` on success (which means that all
   //! commands were parsed successfully), otherwise and error code describing
   //! the problem.
-  Error parse(const char* input, size_t size = asmjit::Globals::kNotFound) noexcept;
+  Error parse(const char* input, size_t size = SIZE_MAX) noexcept;
 
   Error parseCommand() noexcept;
 

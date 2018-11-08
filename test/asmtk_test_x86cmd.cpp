@@ -1,7 +1,7 @@
 #include <stdint.h>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "./asmtk.h"
 #include "./cmdline.h"
@@ -59,11 +59,11 @@ static bool isSpace(const char c) {
 static bool isCommand(const char* str, const char* cmd) {
   while (str[0] && isSpace(str[0])) str++;
 
-  size_t strSize = std::strlen(str);
+  size_t strSize = strlen(str);
   while (strSize && isSpace(str[strSize - 1])) strSize--;
 
-  size_t cmdSize = std::strlen(cmd);
-  return cmdSize == strSize && std::memcmp(str, cmd, strSize) == 0;
+  size_t cmdSize = strlen(cmd);
+  return cmdSize == strSize && memcmp(str, cmd, strSize) == 0;
 }
 
 int main(int argc, char* argv[]) {
@@ -75,14 +75,14 @@ int main(int argc, char* argv[]) {
   uint64_t baseAddress = Globals::kNoBaseAddress;
 
   if (archArg) {
-    if (std::strcmp(archArg, "x86") == 0) {
+    if (strcmp(archArg, "x86") == 0) {
       archId = ArchInfo::kIdX86;
     }
-    else if (std::strcmp(archArg, "x64") == 0) {
+    else if (strcmp(archArg, "x64") == 0) {
       archId = ArchInfo::kIdX64;
     }
     else {
-      std::printf("Invalid --arch parameter\n");
+      printf("Invalid --arch parameter\n");
       return 1;
     }
   }
@@ -91,27 +91,27 @@ int main(int argc, char* argv[]) {
   }
 
   if (baseArg) {
-    size_t size = std::strlen(baseArg);
+    size_t size = strlen(baseArg);
     size_t maxSize = archId == ArchInfo::kIdX64 ? 16 : 8;
 
     if (!size || size > maxSize || !hexToU64(baseAddress, baseArg, size)) {
-      std::printf("Invalid --base parameter\n");
+      printf("Invalid --base parameter\n");
       return 1;
     }
   }
 
-  std::printf("===============================================================\n");
-  std::printf("AsmTk [Assembler toolkit based on AsmJit]\n"                      );
-  std::printf("  - A simple command-line based instruction encoder\n"            );
-  std::printf("  - Architecture=%s [select by --arch=x86|x64]\n", archArg        );
-  std::printf("  - Base-Address=%s [select by --base=hex]\n", baseArg            );
-  std::printf("---------------------------------------------------------------\n");
-  std::printf("Input:\n"                                                         );
-  std::printf("  - Enter instruction and its operands to be encoded.\n"          );
-  std::printf("  - Enter '.clear' to clear everything.\n"                        );
-  std::printf("  - Enter '.print' to print the current code.\n"                  );
-  std::printf("  - Enter '.exit' (or Ctrl+D) to exit.\n"                         );
-  std::printf("===============================================================\n");
+  printf("===============================================================\n");
+  printf("AsmTk [Assembler toolkit based on AsmJit]\n"                      );
+  printf("  - A simple command-line based instruction encoder\n"            );
+  printf("  - Architecture=%s [select by --arch=x86|x64]\n", archArg        );
+  printf("  - Base-Address=%s [select by --base=hex]\n", baseArg            );
+  printf("---------------------------------------------------------------\n");
+  printf("Input:\n"                                                         );
+  printf("  - Enter instruction and its operands to be encoded.\n"          );
+  printf("  - Enter '.clear' to clear everything.\n"                        );
+  printf("  - Enter '.print' to print the current code.\n"                  );
+  printf("  - Enter '.exit' (or Ctrl+D) to exit.\n"                         );
+  printf("===============================================================\n");
 
   StringLogger logger;
   logger.addFlags(FormatOptions::kFlagMachineCode);
@@ -130,10 +130,10 @@ int main(int argc, char* argv[]) {
 
   for (;;) {
     // fgets returns NULL on EOF.
-    if (std::fgets(input, 4095, stdin) == NULL)
+    if (fgets(input, 4095, stdin) == NULL)
       break;
 
-    size_t size = std::strlen(input);
+    size_t size = strlen(input);
     if (size > 0 && input[size - 1] == 0x0A)
       input[--size] = 0;
 
@@ -174,10 +174,10 @@ int main(int argc, char* argv[]) {
       }
 
       if (i < size)
-        std::printf("%.*s", (int)(size - i), log + i);
+        printf("%.*s", (int)(size - i), log + i);
     }
     else {
-      std::fprintf(stdout, "ERROR: 0x%08X: %s\n", err, DebugUtils::errorAsString(err));
+      fprintf(stdout, "ERROR: 0x%08X: %s\n", err, DebugUtils::errorAsString(err));
     }
   }
 

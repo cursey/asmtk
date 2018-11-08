@@ -30,7 +30,7 @@ enum X86Directive : uint32_t {
 // ============================================================================
 
 enum X86Alias : uint32_t {
-  kX86AliasStart = 0x00010000U,
+  kX86AliasStart = 0x00010000u,
 
   kX86AliasMovabs = kX86AliasStart,
 
@@ -560,7 +560,7 @@ MemOp:
               !Support::isUInt32<int64_t>(int64_t(offset)))
             return DebugUtils::errored(kErrorInvalidAddress64Bit);
 
-          int32_t disp32 = int32_t(offset & 0xFFFFFFFFU);
+          int32_t disp32 = int32_t(offset & 0xFFFFFFFFu);
           if (base.isLabel())
             dst = x86::ptr(base.as<Label>(), disp32);
           else if (!index.isReg())

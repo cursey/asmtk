@@ -1,7 +1,7 @@
 #include <stdint.h>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "./asmtk.h"
 
@@ -11,14 +11,14 @@ using namespace asmtk;
 static Error ASMJIT_CDECL unknownSymbolHandler(AsmParser* parser, Operand* dst, const char* name, size_t size) {
   void* data = parser->unknownSymbolHandlerData();
 
-  std::printf("SymbolHandler called on symbol '%.*s' (data %p)\n", int(size), name, data);
+  printf("SymbolHandler called on symbol '%.*s' (data %p)\n", int(size), name, data);
 
-  if (size == 5 && std::memcmp(name, "TestA", 5) == 0) {
+  if (size == 5 && memcmp(name, "TestA", 5) == 0) {
     *dst = x86::rcx;
     return kErrorOk;
   }
 
-  if (size == 5 && std::memcmp(name, "TestB", 5) == 0) {
+  if (size == 5 && memcmp(name, "TestB", 5) == 0) {
     *dst = imm(0x4000);
     return kErrorOk;
   }
@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
   CodeHolder code;
   Error err = code.init(ci);
   if (err) {
-    std::printf("[FAILURE] CodeHolder.init(): %s\n", DebugUtils::errorAsString(err));
+    printf("[FAILURE] CodeHolder.init(): %s\n", DebugUtils::errorAsString(err));
     return 1;
   }
 
@@ -51,15 +51,13 @@ int main(int argc, char* argv[]) {
   AsmParser parser(&a);
   parser.setUnknownSymbolHandler(unknownSymbolHandler);
 
-  err = parser.parse("mov rax, TestA\n"
-                     "call TestB\n");
-
+  err = parser.parse("mov rax, TestA\ncall TestB\n");
   if (err) {
-    std::printf("[FAILURE] AsmParser.parse(): %s\n", DebugUtils::errorAsString(err));
+    printf("[FAILURE] AsmParser.parse(): %s\n", DebugUtils::errorAsString(err));
     return 1;
   }
   else {
-    std::printf("[SUCCESS]\n");
+    printf("[SUCCESS]\n");
     return 0;
   }
 }

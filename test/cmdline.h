@@ -1,7 +1,8 @@
 #ifndef _TEST_CMDLINE_H
 #define _TEST_CMDLINE_H
 
-#include <cstring>
+#include <stdint.h>
+#include <string.h>
 
 class CmdLine {
 public:
@@ -11,14 +12,14 @@ public:
 
   bool hasKey(const char* key) const {
     for (int i = 0; i < argc; i++)
-      if (std::strcmp(argv[i], key) == 0)
+      if (strcmp(argv[i], key) == 0)
         return true;
     return false;
   }
 
   const char* valueOf(const char* key) const {
-    std::size_t keySize = std::strlen(key);
-    std::size_t argSize = 0;
+    size_t keySize = strlen(key);
+    size_t argSize = 0;
 
     const char* arg = NULL;
     for (int i = 0; i <= argc; i++) {
@@ -26,8 +27,8 @@ public:
         return NULL;
 
       arg = argv[i];
-      argSize = std::strlen(arg);
-      if (argSize >= keySize && std::memcmp(arg, key, keySize) == 0)
+      argSize = strlen(arg);
+      if (argSize >= keySize && memcmp(arg, key, keySize) == 0)
         break;
     }
 

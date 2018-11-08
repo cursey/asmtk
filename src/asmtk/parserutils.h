@@ -45,14 +45,14 @@ public:
   inline void addChar(const T* input, size_t i) noexcept {
     size_t nIndex = i / sizeof(Value);
     size_t nByte  = i % sizeof(Value);
-    _value[nIndex] |= Value(uint8_t(input[i])) << (nByte * 8U);
+    _value[nIndex] |= Value(uint8_t(input[i])) << (nByte * 8u);
   }
 
   template<typename T>
   inline void addLowercasedChar(const T* input, size_t i) noexcept {
     size_t nIndex = i / sizeof(Value);
     size_t nByte  = i % sizeof(Value);
-    _value[nIndex] |= Value(asmjit::Support::asciiToLower(uint8_t(input[i]))) << (nByte * 8U);
+    _value[nIndex] |= Value(asmjit::Support::asciiToLower(uint8_t(input[i]))) << (nByte * 8u);
   }
 
   inline bool test(char x0, char x1 = '\0', char x2 = '\0', char x3 = '\0') const noexcept {
@@ -60,7 +60,7 @@ public:
                         (uint32_t(uint8_t(x1)) <<  8) |
                         (uint32_t(uint8_t(x2)) << 16) |
                         (uint32_t(uint8_t(x3)) << 24) ;
-    return uint32_t(_value[0] & 0xFFFFFFFFU) == pattern0;
+    return uint32_t(_value[0] & 0xFFFFFFFFu) == pattern0;
   }
 
   inline bool test(char x0, char x1, char x2, char x3,

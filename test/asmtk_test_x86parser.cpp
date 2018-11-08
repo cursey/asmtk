@@ -1,7 +1,7 @@
 #include <stdint.h>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "./asmtk.h"
 #include "./cmdline.h"
@@ -724,7 +724,7 @@ struct TestStats {
 };
 
 struct TestOptions {
-  inline TestOptions() { std::memset(this, 0, sizeof(*this)); }
+  inline TestOptions() { memset(this, 0, sizeof(*this)); }
   bool onlyFailures;
 };
 
@@ -775,7 +775,7 @@ static bool runTests(TestStats& out, const TestOptions& options, const TestEntry
     else {
       CodeBuffer& buf = code.sectionEntry(0)->buffer();
 
-      if (entry.mustPass && buf.size() == entry.mcSize && std::memcmp(buf.data(), entry.machineCode, entry.mcSize) == 0) {
+      if (entry.mustPass && buf.size() == entry.mcSize && memcmp(buf.data(), entry.machineCode, entry.mcSize) == 0) {
         if (!options.onlyFailures) {
           printf(" %s: %-55s -> ", arch, entry.asmString);
           dumpHex(reinterpret_cast<const char*>(buf.data()), buf.size());
@@ -792,7 +792,7 @@ static bool runTests(TestStats& out, const TestOptions& options, const TestEntry
         if (entry.mustPass) {
           printf(" [FAILED]\n");
 
-          size_t numSpaces = 1 + std::strlen(arch) + 2 + 55;
+          size_t numSpaces = 1 + strlen(arch) + 2 + 55;
           for (size_t j = 0; j < numSpaces; j++) printf(" ");
 
           printf(" != ");

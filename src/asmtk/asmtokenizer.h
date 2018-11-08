@@ -96,16 +96,16 @@ class AsmTokenizer {
 public:
   //! Tokenizer options.
   enum ParseFlags : uint32_t {
-    kParseSymbol          = 0x00000001U, //!< Don't attempt to parse number (always parse symbol).
-    kParseDashes          = 0x00000002U  //!< Consider dashes as text in a parsed symbol.
+    kParseSymbol          = 0x00000001u, //!< Don't attempt to parse number (always parse symbol).
+    kParseDashes          = 0x00000002u  //!< Consider dashes as text in a parsed symbol.
   };
 
   //! Flags used during tokenization (cannot be used as options).
   enum StateFlags : uint32_t {
-    kStateDotPrefix       = 0x10000000U, //!< Parsed '.' prefix.
-    kStateDollarPrefix    = 0x20000000U, //!< Parsed '$' prefix.
-    kStateNumberPrefix    = 0x40000000U, //!< Parsed number prefix [0b|0x].
-    kStateNumberSuffix    = 0x80000000U  //!< Parsed number suffix [b|o|q|h].
+    kStateDotPrefix       = 0x10000000u, //!< Parsed '.' prefix.
+    kStateDollarPrefix    = 0x20000000u, //!< Parsed '$' prefix.
+    kStateNumberPrefix    = 0x40000000u, //!< Parsed number prefix [0b|0x].
+    kStateNumberSuffix    = 0x80000000u  //!< Parsed number suffix [b|o|q|h].
   };
 
   AsmTokenizer();
